@@ -52,6 +52,7 @@ class Tree(object):
         return self.result
 
     def travelling(self, root, way):
+        self.result = []
         if way is None:
             return self.__travel_xianxu(root)
         if way == 1:
@@ -80,14 +81,38 @@ class Tree(object):
             return 0
         return max(self.getheight(root.left), self.getheight(root.right)) + 1
 
+    def insert(self, root, num):
+        if num ==None:
+            return
+        if root == None:
+            return Node(num)
+
+        if num == root.val:
+            return root
+        if num < root.val:
+            if root.left is None:
+                root.left = Node(num)
+            else:
+                self.insert(root.left, num)
+        elif num > root.val:
+            if root.right is None:
+                root.right = Node(num)
+            else:
+                self.insert(root.right, num)
+        else:
+            return
+        return root
+
 
 def main():
-    values = range(65)
+    values = range(10)
     tree_mid = Tree()
     treeroot = tree_mid.build_bst_from_sorted_values_middle(values)
     # 1: xianxu; 2: zhongxu; 3: houxu
-    treelist = tree_mid.travelling(treeroot, 3)
+    treelist = tree_mid.travelling(treeroot, 1)
     print(treelist)
+    newroot = tree_mid.insert(treeroot,5)
+    print(tree_mid.travelling(newroot, 1))
 
     def ifcontains():
         for value in values:
