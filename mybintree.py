@@ -11,11 +11,13 @@ class Node(object):
         self.adjacenciesList = []
 
 
+
+
 class Tree(object):
     def __init__(self):
         self.root = Node()
         self.result = []
-
+        self.total = 0
 
     def writeadjcentlist(self,root):
         if root == None:
@@ -95,11 +97,37 @@ class Tree(object):
 
         root.visited = True
         print("%s ->" % str(root.val))
-
         for n in root.adjacenciesList:
             if not n.visited:
                 self.dfs(n)
 
+#Implementation of leetcode 257 binary tree paths
+#Given a binary tree, return all root-to-leaf paths
+    def __dfspath(self, root, path, res):
+        if not root.left and not root.right:
+            res.append(path+str(root.val))
+        if root.left is not None:
+            self.__dfspath(root.left, path+str(root.val)+'-->', res)
+        if root.right is not None:
+            self.__dfspath(root.right, path+str(root.val)+'-->', res)
+    def dfspath(self, root):
+        if root is None:
+            return []
+        self.__dfspath(root, '', self.result)
+        return self.result
+
+    def __dfssum(self, root, pathsum, treesum):
+        if not root.left and not root.right:
+            treesum += pathsum + root.val
+        if root.left is not None:
+            self.__dfssum(root.left, pathsum+root.val, treesum)
+        if root.right is not None:
+            self.__dfssum(root.right, pathsum+root.val, treesum)
+    def dfssum(self, root):
+        if root is None:
+            return 0
+        self.__dfssum(root, 0, self.total)
+        return self.total
 
     def getheight(self, root):
         if root == None:
@@ -107,6 +135,9 @@ class Tree(object):
         return max(self.getheight(root.left), self.getheight(root.right)) + 1
 
     def insert(self, root, num):
+        """
+        :rtype: object
+        """
         if num == None:
             return
         if root == None:
@@ -137,6 +168,11 @@ def main():
     print(tree_mid.travelling(treeroot, 2))
     tree_mid.writeadjcentlist(treeroot)
     tree_mid.dfs(treeroot)
+    pathlist=tree_mid.dfspath(treeroot)
+    for path in pathlist:
+        print(path)
+    pathsum=tree_mid.dfssum(treeroot)
+    print(pathsum)
 
     def ifcontains():
         for value in values:
