@@ -7,12 +7,25 @@ class Node(object):
         self.val = x
         self.left = None
         self.right = None
+        self.visited = False
+        self.adjacenciesList = []
 
 
 class Tree(object):
     def __init__(self):
         self.root = Node()
         self.result = []
+
+
+    def writeadjcentlist(self,root):
+        if root == None:
+            return
+        if root.left is not None:
+            root.adjacenciesList.append(root.left)
+        if root.right is not None:
+            root.adjacenciesList.append(root.right)
+        self.writeadjcentlist(root.left)
+        self.writeadjcentlist(root.right)
 
     def build_bst_from_sorted_values_middle(self, sorted_values):
         if len(sorted_values) == 0:
@@ -44,6 +57,7 @@ class Tree(object):
         return self.result
 
     def __travel_zhongxu(self, root):
+
         if root == None:
             return
         self.__travel_zhongxu(root.left)
@@ -76,20 +90,28 @@ class Tree(object):
         else:
             return False
 
+
+    def dfs(self, root):
+
+        root.visited = True
+        print("%s ->" % str(root.val))
+
+        for n in root.adjacenciesList:
+            if not n.visited:
+                self.dfs(n)
+
+
     def getheight(self, root):
         if root == None:
             return 0
         return max(self.getheight(root.left), self.getheight(root.right)) + 1
 
     def insert(self, root, num):
-        if num ==None:
+        if num == None:
             return
         if root == None:
             return Node(num)
-
         if num == root.val:
-            return root
-        if num < root.val:
             if root.left is None:
                 root.left = Node(num)
             else:
@@ -109,10 +131,12 @@ def main():
     tree_mid = Tree()
     treeroot = tree_mid.build_bst_from_sorted_values_middle(values)
     # 1: xianxu; 2: zhongxu; 3: houxu
-    treelist = tree_mid.travelling(treeroot, 1)
+    treelist = tree_mid.travelling(treeroot, 2)
     print(treelist)
-    newroot = tree_mid.insert(treeroot,5)
-    print(tree_mid.travelling(newroot, 1))
+    treeroot = tree_mid.insert(treeroot, 20)
+    print(tree_mid.travelling(treeroot, 2))
+    tree_mid.writeadjcentlist(treeroot)
+    tree_mid.dfs(treeroot)
 
     def ifcontains():
         for value in values:
