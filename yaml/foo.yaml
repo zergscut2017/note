@@ -1,0 +1,7 @@
+a: 1
+b:
+- 1.43
+- 543.55
+c: !include_1 bar.yaml
+z: !include_1 zoo.yaml
+k: !include_2 kill.yaml
