@@ -5,8 +5,11 @@ def insertion_sort(list):
         i = index-1
         while i>=0:
             if value < list[i]:
-                list[i+1] = list[i] ## shift number in slot #i right to slot #(i+1)
-                list[i] = value  ## shift value left to slot #i
+                list[i], list[i+1] = value, list[i]    # e.g. index = 3, val = list[3], first cmp list[2] and val, if val > list[2], break; 
+                                                       # otherwise, cmp val and list[1]. The reason we can break when val > list[2] is in
+                                                       # previous loop, we have already sorted list[0], list[1], list[2]
+                #list[i+1] = list[i] ## shift number in slot #i right to slot #(i+1)
+                #list[i] = value  ## shift value left to slot #i
                 i = i - 1
             else:
                 break
